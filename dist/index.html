@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17224a">
+  <meta name="description" content="Учебная страница для просмотра и создания проектов.">
+  <title>Проекты · Учебная страница</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2317224a'/%3E%3Cpath d='M17 20h30v24H17z' fill='none' stroke='%238c9cff' stroke-width='4' stroke-linejoin='round'/%3E%3Cpath d='M24 20v-5h16v5' fill='none' stroke='%238c9cff' stroke-width='4'/%3E%3C/svg%3E">
+  <style>
+    :root { font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; color: #17224a; background: #f5f7fc; font-size: 16px; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 280px; }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .topbar { background: #17224a; color: white; }
+    .topbar-inner { max-width: 1120px; margin: auto; padding: 20px 32px; display: flex; align-items: center; gap: 13px; font-weight: 750; letter-spacing: -.025em; }
+    .mark { display: grid; place-items: center; width: 35px; height: 35px; border: 1px solid #8092ea; border-radius: 10px; color: #c5cdff; }
+    main { max-width: 1120px; margin: 0 auto; padding: 46px 32px 80px; }
+    .eyebrow { margin: 0 0 10px; color: #5368c8; text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; font-weight: 800; }
+    h1 { font-size: clamp(2.35rem, 6vw, 3.55rem); letter-spacing: -.055em; line-height: 1.07; margin: 0; }
+    .intro { margin: 13px 0 34px; color: #5d6782; line-height: 1.5; }
+    .toolbar { display: flex; align-items: stretch; gap: 14px; margin-bottom: 26px; }
+    .search { position: relative; flex: 1 1 auto; min-width: 0; }
+    .search svg { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #79839d; pointer-events: none; }
+    .search input { width: 100%; height: 54px; padding: 0 17px 0 51px; border: 1px solid #dce2f0; border-radius: 14px; background: white; color: #17224a; outline: none; box-shadow: 0 4px 20px rgba(30,45,90,.035); }
+    .search input::placeholder { color: #818ba2; }
+    .search input:focus, .field:focus { border-color: #6378df; box-shadow: 0 0 0 3px #e3e8ff; }
+    .primary { min-height: 54px; border: 0; border-radius: 14px; padding: 0 23px; color: white; background: #465ccc; font-weight: 700; white-space: nowrap; box-shadow: 0 7px 16px rgba(70,92,204,.18); }
+    .primary:hover { background: #3449b6; }
+    .primary:focus-visible, .secondary:focus-visible, .close:focus-visible, .card-action:focus-visible, .danger:focus-visible { outline: 3px solid #aebaff; outline-offset: 3px; }
+    .section-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 17px; }
+    h2 { font-size: 1.16rem; letter-spacing: -.025em; margin: 0; }
+    .count { color: #75809a; font-size: .9rem; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .card { min-width: 0; background: white; border: 1px solid #e3e8f2; border-radius: 18px; padding: 23px; min-height: 194px; box-shadow: 0 7px 24px rgba(28,45,90,.035); }
+    .card-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; color: #4057bd; background: #edf0ff; margin-bottom: 20px; }
+    .card h3 { margin: 0 0 8px; font-size: 1.07rem; line-height: 1.3; overflow-wrap: anywhere; }
+    .card p { color: #64708b; line-height: 1.5; margin: 0; overflow-wrap: anywhere; }
+    .card { display: flex; flex-direction: column; }
+    .card-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 21px; }
+    .card-action { border: 1px solid #dce2f0; background: #fff; color: #4256a7; border-radius: 9px; min-height: 38px; padding: 6px 11px; font-size: .88rem; font-weight: 650; }
+    .card-action:hover { background: #f3f5ff; }
+    .card-action.delete { color: #a23749; }
+    .card-action.delete:hover { background: #fff2f4; }
+    .empty { padding: 45px 25px; border: 1px dashed #cbd3e6; border-radius: 18px; text-align: center; color: #64708b; background: white; }
+    .empty strong { display: block; color: #17224a; margin-bottom: 6px; }
+    .notice { margin: 16px 0 0; color: #a03447; min-height: 1.5em; }
+    dialog { width: min(100% - 32px, 480px); border: 0; padding: 0; border-radius: 20px; box-shadow: 0 24px 70px rgba(12,23,67,.3); color: #17224a; }
+    dialog::backdrop { background: rgba(16,26,58,.62); }
+    .dialog-content { padding: 27px; }
+    .dialog-head { display: flex; justify-content: space-between; align-items: start; gap: 20px; margin-bottom: 24px; }
+    .dialog-head h2 { font-size: 1.45rem; }
+    .close { background: #f1f3f9; border: 0; border-radius: 9px; width: 34px; height: 34px; font-size: 1.4rem; line-height: 1; color: #536078; }
+    label { display: block; font-weight: 650; font-size: .9rem; margin: 0 0 8px; }
+    .field { width: 100%; border: 1px solid #d7deec; border-radius: 11px; padding: 12px 14px; outline: none; color: #17224a; background: white; }
+    textarea.field { resize: vertical; min-height: 100px; }
+    .form-group { margin-bottom: 20px; }
+    .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; }
+    .secondary { min-height: 48px; padding: 0 18px; border-radius: 11px; border: 1px solid #d6ddec; background: white; color: #31405e; font-weight: 650; }
+    .actions .primary { min-height: 48px; border-radius: 11px; }
+    .form-error { color: #a03447; min-height: 1.3em; margin: -5px 0 0; font-size: .88rem; }
+    .confirm-text { color: #596681; line-height: 1.55; margin: 0; overflow-wrap: anywhere; }
+    .danger { min-height: 48px; border: 0; border-radius: 11px; padding: 0 18px; background: #ad3449; color: white; font-weight: 700; }
+    .danger:hover { background: #92283c; }
+    @media (max-width: 800px) { .grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 600px) {
+      .topbar-inner { padding: 15px 20px; }
+      main { padding: 34px 20px 60px; }
+      .intro { margin-bottom: 27px; }
+      .toolbar { flex-direction: column; gap: 11px; }
+      .search, .toolbar .primary { width: 100%; }
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .card { min-height: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="topbar-inner"><span class="mark" aria-hidden="true">▣</span><span>Учебная страница</span></div></header>
+  <main>
+    <p class="eyebrow">Рабочая область</p>
+    <h1>Проекты</h1>
+    <p class="intro">Найдите проект, добавьте новый или измените существующий. Данные сохраняются в этом браузере.</p>
+    <div class="toolbar">
+      <div class="search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="2"/><path d="m16 16 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="search" type="search" placeholder="Поиск по названию и описанию" aria-label="Поиск проектов" autocomplete="off">
+      </div>
+      <button id="open-form" class="primary" type="button">+ Создать проект</button>
+    </div>
+    <div class="section-head"><h2>Все проекты</h2><span class="count" id="count" aria-live="polite"></span></div>
+    <div id="list" class="grid" aria-live="polite"></div>
+    <p id="notice" class="notice" role="alert"></p>
+  </main>
+  <dialog id="project-dialog" aria-labelledby="dialog-title">
+    <form id="project-form" class="dialog-content">
+      <div class="dialog-head"><h2 id="dialog-title">Новый проект</h2><button class="close" id="close-form" type="button" aria-label="Закрыть форму">×</button></div>
+      <div class="form-group"><label for="project-name">Название проекта</label><input class="field" id="project-name" name="name" maxlength="80" required autocomplete="off" placeholder="Например, Школьная выставка"></div>
+      <div class="form-group"><label for="project-description">Описание</label><textarea class="field" id="project-description" name="description" maxlength="300" required placeholder="Коротко о проекте"></textarea></div>
+      <p id="form-error" class="form-error" role="alert"></p>
+      <div class="actions"><button class="secondary" id="cancel-form" type="button">Отмена</button><button class="primary" type="submit">Сохранить</button></div>
+    </form>
+  </dialog>
+  <dialog id="delete-dialog" aria-labelledby="delete-title">
+    <div class="dialog-content">
+      <div class="dialog-head"><h2 id="delete-title">Удалить проект?</h2><button class="close" id="close-delete" type="button" aria-label="Закрыть подтверждение">×</button></div>
+      <p class="confirm-text">Проект «<strong id="delete-name"></strong>» будет удалён из этого браузера.</p>
+      <p id="delete-error" class="form-error" role="alert"></p>
+      <div class="actions"><button class="secondary" id="cancel-delete" type="button">Отмена</button><button class="danger" id="confirm-delete" type="button">Удалить</button></div>
+    </div>
+  </dialog>
+  <script>
+    (() => {
+      const key = 'study-projects-v1';
+      const examples = [
+        { id: 'demo-1', name: 'Школьная выставка', description: 'Подготовка работ и материалов для учебной выставки.' },
+        { id: 'demo-2', name: 'Книжный клуб', description: 'Обсуждение книг и общие заметки после встреч.' },
+        { id: 'demo-3', name: 'Экоинициатива', description: 'План небольших полезных дел для школьного сообщества.' }
+      ];
+      const list = document.querySelector('#list');
+      const count = document.querySelector('#count');
+      const search = document.querySelector('#search');
+      const notice = document.querySelector('#notice');
+      const dialog = document.querySelector('#project-dialog');
+      const form = document.querySelector('#project-form');
+      const formError = document.querySelector('#form-error');
+      const dialogTitle = document.querySelector('#dialog-title');
+      const deleteDialog = document.querySelector('#delete-dialog');
+      const deleteName = document.querySelector('#delete-name');
+      const deleteError = document.querySelector('#delete-error');
+      let editingId = null;
+      let deletingId = null;
+      let projects;
+
+      try {
+        const saved = localStorage.getItem(key);
+        const parsed = saved === null ? examples : JSON.parse(saved);
+        projects = Array.isArray(parsed) && parsed.every(item => item && typeof item.id === 'string' && typeof item.name === 'string' && typeof item.description === 'string') ? parsed : examples;
+      } catch (_) {
+        projects = examples;
+        notice.textContent = 'Не удалось прочитать сохранённые данные. Показаны учебные примеры.';
+      }
+
+      function render() {
+        const query = search.value.trim().toLocaleLowerCase('ru');
+        const filtered = projects.filter(item => `${item.name} ${item.description}`.toLocaleLowerCase('ru').includes(query));
+        count.textContent = `${filtered.length} из ${projects.length}`;
+        list.replaceChildren();
+        if (!filtered.length) {
+          const empty = document.createElement('div');
+          empty.className = 'empty';
+          const title = document.createElement('strong');
+          title.textContent = query ? 'Ничего не найдено' : 'Пока нет проектов';
+          const description = document.createElement('span');
+          description.textContent = query ? 'Попробуйте другой запрос.' : 'Создайте первый проект.';
+          empty.append(title, description);
+          list.append(empty);
+          return;
+        }
+        filtered.forEach(item => {
+          const card = document.createElement('article');
+          card.className = 'card';
+          const icon = document.createElement('span');
+          icon.className = 'card-icon';
+          icon.setAttribute('aria-hidden', 'true');
+          icon.textContent = '▤';
+          const title = document.createElement('h3');
+          title.textContent = item.name;
+          const description = document.createElement('p');
+          description.textContent = item.description;
+          const actions = document.createElement('div');
+          actions.className = 'card-actions';
+          const edit = document.createElement('button');
+          edit.type = 'button';
+          edit.className = 'card-action';
+          edit.textContent = 'Изменить';
+          edit.setAttribute('aria-label', `Изменить проект «${item.name}»`);
+          edit.addEventListener('click', () => openEdit(item.id));
+          const remove = document.createElement('button');
+          remove.type = 'button';
+          remove.className = 'card-action delete';
+          remove.textContent = 'Удалить';
+          remove.setAttribute('aria-label', `Удалить проект «${item.name}»`);
+          remove.addEventListener('click', () => openDelete(item.id));
+          actions.append(edit, remove);
+          card.append(icon, title, description, actions);
+          list.append(card);
+        });
+      }
+
+      function validatedFields(name, description) {
+        const cleanName = String(name).trim();
+        const cleanDescription = String(description).trim();
+        if (!cleanName || !cleanDescription || cleanName.length > 80 || cleanDescription.length > 300) throw new Error('Заполните название и описание в пределах указанных ограничений.');
+        return { name: cleanName, description: cleanDescription };
+      }
+
+      function save(next) {
+        try { localStorage.setItem(key, JSON.stringify(next)); }
+        catch (_) { throw new Error('Не удалось сохранить изменения в браузере. Проверьте настройки хранилища.'); }
+        projects = next;
+        notice.textContent = '';
+        render();
+      }
+
+      function addProject(name, description) {
+        const fields = validatedFields(name, description);
+        const project = { id: crypto.randomUUID(), ...fields };
+        save([project, ...projects]);
+        search.value = '';
+        render();
+        return project;
+      }
+
+      function updateProject(id, name, description) {
+        const fields = validatedFields(name, description);
+        if (!projects.some(item => item.id === id)) throw new Error('Проект не найден.');
+        save(projects.map(item => item.id === id ? { ...item, ...fields } : item));
+        return { id, ...fields };
+      }
+
+      function deleteProject(id) {
+        if (!projects.some(item => item.id === id)) throw new Error('Проект не найден.');
+        save(projects.filter(item => item.id !== id));
+        return { id, deleted: true };
+      }
+
+      function openCreate() {
+        editingId = null;
+        dialogTitle.textContent = 'Новый проект';
+        formError.textContent = '';
+        form.reset();
+        dialog.showModal();
+      }
+
+      function openEdit(id) {
+        const project = projects.find(item => item.id === id);
+        if (!project) return;
+        editingId = id;
+        dialogTitle.textContent = 'Изменить проект';
+        form.elements.name.value = project.name;
+        form.elements.description.value = project.description;
+        formError.textContent = '';
+        dialog.showModal();
+      }
+
+      function openDelete(id) {
+        const project = projects.find(item => item.id === id);
+        if (!project) return;
+        deletingId = id;
+        deleteName.textContent = project.name;
+        deleteError.textContent = '';
+        deleteDialog.showModal();
+      }
+
+      search.addEventListener('input', render);
+      document.querySelector('#open-form').addEventListener('click', openCreate);
+      document.querySelector('#close-form').addEventListener('click', () => dialog.close());
+      document.querySelector('#cancel-form').addEventListener('click', () => dialog.close());
+      dialog.addEventListener('close', () => { form.reset(); editingId = null; formError.textContent = ''; });
+      document.querySelector('#close-delete').addEventListener('click', () => deleteDialog.close());
+      document.querySelector('#cancel-delete').addEventListener('click', () => deleteDialog.close());
+      deleteDialog.addEventListener('close', () => { deletingId = null; deleteError.textContent = ''; });
+      document.querySelector('#confirm-delete').addEventListener('click', () => {
+        try { deleteProject(deletingId); deleteDialog.close(); }
+        catch (error) { deleteError.textContent = error.message; }
+      });
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        try {
+          if (editingId === null) addProject(form.elements.name.value, form.elements.description.value);
+          else updateProject(editingId, form.elements.name.value, form.elements.description.value);
+          dialog.close();
+        } catch (error) { formError.textContent = error.message; }
+      });
+      render();
+
+      if (document.modelContext?.registerTool) {
+        const context = document.modelContext;
+        const register = tool => { try { Promise.resolve(context.registerTool(tool)).catch(() => {}); } catch (_) {} };
+        register({
+          name: 'create_project', title: 'Создать проект',
+          description: 'Создаёт учебный проект, сохраняет его в браузере и показывает в списке.',
+          inputSchema: { type: 'object', properties: { name: { type: 'string', maxLength: 80 }, description: { type: 'string', maxLength: 300 } }, required: ['name', 'description'], additionalProperties: false },
+          annotations: { readOnlyHint: false, untrustedContentHint: false },
+          execute(input) { const project = addProject(input.name, input.description); return { id: project.id, name: project.name }; }
+        });
+        register({
+          name: 'update_project', title: 'Изменить проект',
+          description: 'Обновляет название и описание существующего учебного проекта.',
+          inputSchema: { type: 'object', properties: { id: { type: 'string' }, name: { type: 'string', maxLength: 80 }, description: { type: 'string', maxLength: 300 } }, required: ['id', 'name', 'description'], additionalProperties: false },
+          annotations: { readOnlyHint: false, untrustedContentHint: false },
+          execute(input) { return updateProject(input.id, input.name, input.description); }
+        });
+        register({
+          name: 'delete_project', title: 'Удалить проект',
+          description: 'Безвозвратно удаляет учебный проект из локального списка.',
+          inputSchema: { type: 'object', properties: { id: { type: 'string' } }, required: ['id'], additionalProperties: false },
+          annotations: { readOnlyHint: false, untrustedContentHint: false },
+          execute(input) { return deleteProject(input.id); }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
